@@ -1,38 +1,49 @@
-# KOReader rpm 打包
+# KOReader rpm packaging
 
-KOReader 官方不提供 rpm 包，本仓库用官方 Linux x86_64 自包含 tarball 封装成 Fedora 可用的 rpm。
+KOReader doesn't provide an official rpm package. This repo repackages it into a Fedora rpm from the official Linux x86_64 self-contained tarball — no code changes, just packaging.
 
-## 文件
+## Upstream
 
-- `koreader.spec` — rpm 打包规格文件
-- `build-koreader.sh` — 一键打包脚本
-- `BUILDING.md` — 维护说明（更新版本的完整步骤 + 踩坑记录）
+- [KOReader](https://github.com/koreader/koreader) — the original ebook reader project (AGPL-3.0)
+- This repo only repackages the official release binaries; all credit goes to the KOReader team.
 
-## 快速打包
+## Files
+
+- `koreader.spec` — rpm spec file
+- `build-koreader.sh` — one-shot build script
+- `BUILDING.md` — maintenance guide (update steps + known pitfalls)
+
+## Quick build
 
 ```bash
-# 自动查最新版本并打包
+# Auto-detect latest version and build
 ./build-koreader.sh
 
-# 或指定版本（v 前缀可带可不带）
+# Or pin a version (optional v prefix)
 ./build-koreader.sh 2026.07.1
 ```
 
-产物输出到 `~/rpmbuild/RPMS/x86_64/`。
+Output lands in `~/rpmbuild/RPMS/x86_64/`.
 
-## 安装
+## Install
 
 ```bash
-sudo dnf install ./koreader-<版本>-1.fc*.x86_64.rpm
+sudo dnf install ./koreader-<version>-1.fc*.x86_64.rpm
 ```
 
-## 前置依赖
+Pre-built rpms are also published on the [Releases page](https://github.com/Sciolus-nut/koreader-rpm/releases).
 
-- Fedora 系统
-- `rpm-build` 包（`sudo dnf install rpm-build`）
+## Prerequisites
 
-## 说明
+- Fedora
+- `rpm-build` (`sudo dnf install rpm-build`)
 
-- 官方 tarball 里 reader.lua 用相对路径 shebang（`./luajit`），spec 里已禁用 shebang 检查处理
-- 预编译二进制无 build-id，spec 里已禁用 debuginfo 生成
-- 详见 `BUILDING.md`
+## Notes
+
+- reader.lua uses a relative-path shebang (`./luajit`), so the spec disables shebang mangling
+- Prebuilt binaries lack build-id, so the spec disables debuginfo generation
+- See `BUILDING.md` for details
+
+## Other languages
+
+- 简体中文：[README.zh-CN.md](README.zh-CN.md)
