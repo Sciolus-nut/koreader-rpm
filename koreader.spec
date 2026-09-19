@@ -24,6 +24,7 @@ built from the official Linux x86_64 self-contained tarball.
 %install
 mkdir -p %{buildroot}%{_prefix}
 cp -a bin lib share %{buildroot}%{_prefix}/
+sed -i '/^Icon=/a StartupWMClass=luajit' %{buildroot}%{_datadir}/applications/rocks.koreader.KOReader.desktop
 
 %files
 %{_prefix}/bin/koreader
